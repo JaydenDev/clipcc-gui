@@ -14,12 +14,17 @@ class Settings extends React.Component {
         bindAll(this, [
             'setFramerate',
             'setCompression',
+            'setCompiler',
             'setDeserializeOption'
         ]);
     }
     
 	setFramerate (framerate) {
 		this.props.vm.runtime.setFramerate(framerate);
+	}
+	
+	setCompiler (option) {
+		this.props.vm.runtime.setCompiler(option);
 	}
 	
 	setCompression (level) {
@@ -36,6 +41,7 @@ class Settings extends React.Component {
                 {...this.props}
                 setFramerate={this.setFramerate}
                 setCompression={this.setCompression}
+                setCompiler={this.setCompiler}
                 setDeserializeOption={this.setDeserializeOption}
             >
                 {this.props.children}

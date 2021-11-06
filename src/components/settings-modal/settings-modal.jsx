@@ -21,6 +21,7 @@ import FPSSetting from './fps-setting.jsx';
 import DarkModeSetting from './darkmode-setting.jsx';
 import BlurSetting from './blur-setting.jsx'
 import CompatibilitySetting from './compatibility-setting.jsx';
+import CompilerSetting from './compiler-setting.jsx';
 import CompressionSetting from './compression-setting.jsx';
 
 const messages = defineMessages({
@@ -72,6 +73,7 @@ const SettingsModal = ({
     intl,
     onRequestClose,
     setFramerate,
+    setCompiler,
     setCompression,
     setDeserializeOption
 }) => (
@@ -101,6 +103,9 @@ const SettingsModal = ({
             >
                 <FPSSetting
                     setFramerate={setFramerate}
+                />
+                <CompilerSetting
+                    setCompiler={setCompiler}
                 />
             </Box>
             <strong>{intl.formatMessage(messages.project)}</strong>
