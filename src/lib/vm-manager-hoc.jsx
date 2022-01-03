@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -34,10 +35,16 @@ const vmManagerHOC = function (WrappedComponent) {
                 this.audioEngine = new AudioEngine();
                 this.props.vm.attachAudioEngine(this.audioEngine);
                 this.props.vm.setCompatibilityMode(true);
-                this.props.vm.runtime.setFramerate(parseInt(this.props.fps));
-                this.props.vm.setCompressionLevel(parseInt(this.props.compression));
-                this.props.vm.setDeserializeOption(this.props.compatibility);
-                this.props.vm.runtime.setCompiler(this.props.compiler);
+                
+                //初始化设置
+                try {
+                    this.props.vm.runtime.setFramerate(this.props.fps);
+                    this.props.vm.setCompressionLevel(this.props.compression);
+                    this.props.vm.setDeserializeOption(this.props.compatibility);
+                    this.props.vm.runtime.setCompiler(this.props.compiler);
+                } catch (e) {
+                    console.log('Failed to initialize settings:', e);
+                }
                 this.props.vm.initialized = true;
                 this.props.vm.setLocale(this.props.locale, this.props.messages);
             }
@@ -123,8 +130,8 @@ const vmManagerHOC = function (WrappedComponent) {
         projectData: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
         projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         username: PropTypes.string,
-        fps: PropTypes.string,
-        compression: PropTypes.string,
+        fps: PropTypes.number,
+        compression: PropTypes.number,
         compatibility: PropTypes.string,
         compiler: PropTypes.string,
         vm: PropTypes.instanceOf(VM).isRequired
@@ -142,8 +149,9 @@ const vmManagerHOC = function (WrappedComponent) {
             loadingState: loadingState,
             isPlayerOnly: state.scratchGui.mode.isPlayerOnly,
             isStarted: state.scratchGui.vmStatus.started,
-            fps: getSetting(state, 'fps'),
-            compression: getSetting(state, 'compression'),
+
+            fps: parseInt(getSetting(state, 'fps')),
+            compression: parseInt(getSetting(state, 'compression')),
             compatibility: getSetting(state, 'compatibility'),
             compiler: getSetting(state, 'compiler')
         };

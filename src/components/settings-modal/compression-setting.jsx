@@ -44,11 +44,18 @@ const CompressionSetting = props => (
         >
             <BufferedInput
                 tabIndex="1"
+                min="10"
+                max="360"
                 type="number"
                 value={props.compression}
                 onSubmit={value => {
-                	props.onChangeCompression(value);
-                	props.setCompression(value);
+                    try {
+                        props.setCompression(value);
+                        props.onChangeCompression(value);
+                    } catch (e) {
+                        alert('Failed to change setting:' + e);
+                        console.error('Failed to change setting:', e);
+                    }
                 }}
             />
         </Box>

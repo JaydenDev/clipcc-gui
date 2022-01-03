@@ -5,8 +5,8 @@ const webpack = require('webpack');
 // Plugins
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 // PostCss
 const autoprefixer = require('autoprefixer');
@@ -63,7 +63,7 @@ const base = {
                         messagesDir: './translations/messages/'
                     }]],
                 presets: [
-                    ['@babel/preset-env', {"targets": {"browsers": ["last 3 versions", "Safari >= 8", "iOS >= 8"]}}], 
+                    ['@babel/preset-env'],
                     '@babel/preset-react'
                 ]
             }
@@ -97,10 +97,10 @@ const base = {
     },
     optimization: {
         minimizer: [
-            new UglifyJsPlugin({
+            new TerserPlugin({
                 include: /\.min\.js$/
             })
-        ]
+        ],
     },
     plugins: []
 };
